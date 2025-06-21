@@ -29,9 +29,9 @@ def get_data(data) -> str:
         location = fox['locations']
         try:    
             type = fox['characteristics']['type']
-            foxes += f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\nType: {type}\n\n"
+            foxes += f'<li class="cards__item">\nName: {name}<br>Diet: {diet}<br>Location: {', '.join(location)}<br>Type: {type}\n</li>\n'
         except KeyError:
-            foxes += f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\n\n"
+            foxes += f'<li class="cards__item">\nName: {name}<br>Diet: {diet}<br>Location: {', '.join(location)}\n</li>\n'
     return foxes
 
 def read_html(file_path) -> str:
@@ -75,16 +75,16 @@ def main():
     """
 
     if not file_exists('animals_data.json'):
-        raise FileNotFoundError("The file 'animals_data.json' does not exist.")
+        raise FileNotFoundError('The file "animals_data.json" does not exist.')
 
     animals_data = load_data('animals_data.json')
     foxes_data = get_data(animals_data)
     if not file_exists('animals_template.html'):
-        raise FileNotFoundError("The file 'animals_template.html' does not exist.")
+        raise FileNotFoundError('The file "animals_template.html" does not exist.')
     html_data = read_html('animals_template.html')
     updated_html = update_html_string(html_data, foxes_data)
     update_html('animals.html', updated_html)
-    print("HTML file 'animals.html' has been successfully updated with foxes data.")
+    print('HTML file "animals.html" has been successfully updated with foxes data.')
 
-if __name__ == "__main__":
+if __name__ == '__main_':
     main()
