@@ -29,9 +29,9 @@ def get_data(data) -> str:
         location = fox['locations']
         try:    
             type = fox['characteristics']['type']
-            foxes += f'<li class="cards__item">\nName: {name}<br>Diet: {diet}<br>Location: {', '.join(location)}<br>Type: {type}\n</li>\n'
+            foxes += f'<li class="cards__item">\n<div class="card__title">{name}</div>\n<div class="card__text">\n<ul>\n<li>\n<strong>Diet:</strong> {diet}\n</li>\n<li>\n<strong>Location:</strong> {', '.join(location)}\n</li>\n<li>\n<strong>Type:</strong> {type}\n</ul>\n</div>\n</li>\n'
         except KeyError:
-            foxes += f'<li class="cards__item">\nName: {name}<br>Diet: {diet}<br>Location: {', '.join(location)}\n</li>\n'
+            foxes += f'<li class="cards__item">\n<div class="card__title">{name}</div>\n<div class="card__text">\n<ul>\n<li>\n<strong>Diet:</strong> {diet}\n</li>\n<li>\n<strong>Location:</strong> {', '.join(location)}\n</li>\n</ul>\n</div>\n</li>\n'
     return foxes
 
 def read_html(file_path) -> str:
@@ -86,5 +86,5 @@ def main():
     update_html('animals.html', updated_html)
     print('HTML file "animals.html" has been successfully updated with foxes data.')
 
-if __name__ == '__main_':
+if __name__ == '__main__':
     main()
