@@ -59,7 +59,7 @@ def update_html_string(html_content: str, data: str) -> str:
 def update_html(file_path: str, updated_html_string: str) -> None:
     """Create or overwrite the html file with the updated version.
     Args:
-        file_path (str): The path to the HTML file to be updated.
+        file_path (str): The path to the HTML file to be created or updated.
         updated_html_string (str): The updated HTML content.
     Returns:
         None
@@ -67,15 +67,24 @@ def update_html(file_path: str, updated_html_string: str) -> None:
     with open(file_path, 'w+') as file:
         file.write(updated_html_string)
 
+def main():
+    """Load animal data from a JSON file, generate a string with foxes information,
+    read an HTML template, update it with the foxes information, and save the updated HTML.
+    Raises:
+        FileNotFoundError: If the JSON or HTML template file does not exist.
+    """
 
-if not file_exists('animals_data.json'):
-    raise FileNotFoundError("The file 'animals_data.json' does not exist.")
+    if not file_exists('animals_data.json'):
+        raise FileNotFoundError("The file 'animals_data.json' does not exist.")
 
-animals_data = load_data('animals_data.json')
-foxes_data = get_data(animals_data)
-if not file_exists('animals_template.html'):
-    raise FileNotFoundError("The file 'animals_template.html' does not exist.")
-html_data = read_html('animals_template.html')
-updated_html = update_html_string(html_data, foxes_data)
-update_html('animals.html', updated_html)
-print("HTML file 'animals.html' has been successfully updated with foxes data.")
+    animals_data = load_data('animals_data.json')
+    foxes_data = get_data(animals_data)
+    if not file_exists('animals_template.html'):
+        raise FileNotFoundError("The file 'animals_template.html' does not exist.")
+    html_data = read_html('animals_template.html')
+    updated_html = update_html_string(html_data, foxes_data)
+    update_html('animals.html', updated_html)
+    print("HTML file 'animals.html' has been successfully updated with foxes data.")
+
+if __name__ == "__main__":
+    main()
