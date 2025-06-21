@@ -5,18 +5,22 @@ def load_data(file_path):
     with open(file_path, 'r') as handle:
         return json.load(handle)
     
-def print_data(data):
+def get_data(data):
     """Print data in a readable format."""
+    foxes = ''
     for fox in data:   
         name = fox['name']
         diet = fox['characteristics']['diet']
         location = fox['locations']
         try:    
             type = fox['characteristics']['type']
-            print(f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\nType: {type}\n")
+            foxes += f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\nType: {type}\n\n"
         except KeyError:
-            print(f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\n")
+            foxes += f"Name: {name}\nDiet: {diet}\nLocation: {', '.join(location)}\n\n"
+    return foxes
+        
+
+
 
 animals_data = load_data('animals_data.json')
-# Print the loaded data
-print_data(animals_data)
+print(get_data(animals_data))
