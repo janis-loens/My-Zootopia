@@ -1,4 +1,14 @@
 import json
+import os.path
+
+def file_exists(file_path: str) -> bool:
+    """Check if a file exists at the given path.
+    Args:
+        file_path (str): The path to the file.
+    Returns:
+        bool: True if the file exists, False otherwise.
+    """
+    return os.path.isfile(file_path)
 
 def load_data(file_path) -> list:
     """Load data from a JSON file."""
@@ -34,11 +44,38 @@ def read_html(file_path) -> str:
     with open(file_path, 'r') as file:
         return file.read()
 
-        
+
+def update_html_string(html_content: str, data: str) -> str:
+    """Update the HTML content with the provided data.
+    Args:
+        html_content (str): The original HTML content.
+        data (str): The data to insert into the HTML.
+    Returns:
+        str: The updated HTML content.
+    """
+    return html_content.replace('__REPLACE_ANIMALS_INFO__', data)
 
 
+def update_html(file_path: str, updated_html_string: str) -> None:
+    """Create or overwrite the html file with the updated version.
+    Args:
+        file_path (str): The path to the HTML file to be updated.
+        updated_html_string (str): The updated HTML content.
+    Returns:
+        None
+    """
+    with open(file_path, 'w+') as file:
+        file.write(updated_html_string)
+
+
+if not file_exists('animals_data.json'):
+    raise FileNotFoundError("The file 'animals_data.json' does not exist.")
 
 animals_data = load_data('animals_data.json')
 foxes_data = get_data(animals_data)
+if not file_exists('animals_template.html'):
+    raise FileNotFoundError("The file 'animals_template.html' does not exist.")
 html_data = read_html('animals_template.html')
-
+updated_html = update_html_string(html_data, foxes_data)
+update_html('animals.html', updated_html)
+print("HTML file 'animals.html' has been successfully updated with foxes data.")
