@@ -22,17 +22,22 @@ def get_data(data) -> str:
     Returns:
         str: A formatted string with information about each fox.
     """
-    foxes = ''
-    for fox in data:   
-        name = fox['name']
-        diet = fox['characteristics']['diet']
-        location = fox['locations']
-        try:    
-            type = fox['characteristics']['type']
-            foxes += f'<li class="cards__item">\n<div class="card__title">{name}</div>\n<div class="card__text">\n<ul>\n<li>\n<strong>Diet:</strong> {diet}\n</li>\n<li>\n<strong>Location:</strong> {', '.join(location)}\n</li>\n<li>\n<strong>Type:</strong> {type}\n</ul>\n</div>\n</li>\n'
-        except KeyError:
-            foxes += f'<li class="cards__item">\n<div class="card__title">{name}</div>\n<div class="card__text">\n<ul>\n<li>\n<strong>Diet:</strong> {diet}\n</li>\n<li>\n<strong>Location:</strong> {', '.join(location)}\n</li>\n</ul>\n</div>\n</li>\n'
-    return foxes
+    animals = ''
+    for animal in data:
+        name = animal.get('name', 'Unknown')
+        characteristics = animal.get('characteristics', {})
+        diet = characteristics.get('diet', 'Unknown')
+        type_ = characteristics.get('type')  # None if missing
+        locations = animal.get('locations', [])
+        location = locations[0] if locations else 'Unknown'
+
+        animals += f'<li class="cards__item">\n<div class="card__title">{name}</div>\n<div class="card__text">\n<ul>\n'
+        animals += f'<li>\n<strong>Diet:</strong> {diet}\n</li>\n'
+        animals += f'<li>\n<strong>Location:</strong> {location}\n</li>\n'
+        if type_:
+            animals += f'<li>\n<strong>Type:</strong> {type_}\n</li>\n'
+        animals += '</ul>\n</div>\n</li>\n'
+    return animals
 
 def read_html(file_path) -> str:
     """Read the content of an HTML file.
@@ -64,7 +69,7 @@ def update_html(file_path: str, updated_html_string: str) -> None:
     Returns:
         None
     """
-    with open(file_path, 'w+') as file:
+    with open(file_path, 'w') as file:
         file.write(updated_html_string)
 
 def main():
